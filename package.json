@@ -5,7 +5,6 @@
   "main": "background.js",
   "scripts": {
     "build": "gulp",
-    "watch": "gulp watch",
     "zip": "gulp zip"
   },
   "author": "Gonzalo Melgar",

@@ -16,12 +16,18 @@ To generate the code with all the files needed just run:
 npm run-script build
 ```
 
-This will generate the `/dist`, and `/build` folders:
-> _/build_: containing the chrome extension's code to be loaded in the browser.
+This will generate a `/build` folder, containing the chrome extension's code to be loaded in the browser.
 
-> _/dist_: containing a zipfile with the generated code.
+## Compress
+To generate a zip file with the chorme extension files, just run:
 
-## Install
+```sh
+npm run-script zip
+```
+
+This will re-build the code and create the `/dist` folder, containing a zipfile with the generated code.
+
+## Install Extension
 
 1. Clone this repo to your own computer.
 
