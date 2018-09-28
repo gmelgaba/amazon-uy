@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Amazon UY</title>
+  <link rel='shortcut icon' type='image/x-icon' href='images/favicon.png' />
+  <link rel="stylesheet" href="styles/bootstrap.min.css">
+  <link rel="stylesheet" href="styles/custom.css">
+  <script src="js/jquery-3.1.1.min.js"></script>
+  <script src="js/app.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="header-amazon-logo">
+        <img src="./images/amazon-logo.png" alt="Amazon">
+      </div>
+      <h1>
+        <span class="header-text-uy">UY</span>
+        <span class="header-text">Convertidor de datos</span>
+      </h1>
+    </div>
+    <hr>
+    <div class="jumbotron">
+      <h1>¿Para que sirve?</h1>
+      <p>Amazon UY es una extension de chrome cuyo objetivo es facilitar al usuario sus compras de amazon con destino Uruguay. Permite al usuario visualizar información relevante a la hora de realizar una compra en <a href="https://amazon.com" target="_blank">Amazon</a> desplegando en pantalla un cuadro de informacion con los datos relacionados al peso del producto, y su tarifa asociada correspondiente a un proveedor específico.</p>
+    </div>
+    <div class="row bottom">
+      <div class="col-lg-4">
+        <div class="list-group suppliers">
+          <a id="supplier-template" class="list-group-item list-group-item-action hidden supplier">
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1 name"></h5>
+              <small class="selected">SELECCIONADO</small>
+            </div>
+            <p class="mb-1 url"></p>
+          </a>
+        </div>
+      </div>
+      <div class="col-lg-8">
+        <div>
+          <div id="supplier-data" class="card">
+            <div class="card-body">
+              <h4 class="card-title name">Title</h4>
+              <a href="#" target="_blank" class="card-link url"></a>
+              <img class="image" src="" alt="">
+              <p class="card-subtitle text-muted description"></p>
+              <br>
+              <div class="form-group price">
+                <label class="control-label">Precio por kilo</label>
+                <div class="form-group">
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">$</span>
+                    </div>
+                    <input type="number" class="form-control price-value" step=".1" min="0" max="100">
+                  </div>
+                </div>
+              </div>
+              <p><a id="save-supplier" alignt="right" class="btn btn-primary white-text">Guardar</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

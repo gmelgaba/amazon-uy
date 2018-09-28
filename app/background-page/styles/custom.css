@@ -1,0 +1,76 @@
+.header {
+  height: 60px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.header-amazon-logo {
+  float: left;
+  height: 100%;
+  margin-top: 5px;
+}
+
+.header-text-uy {
+  color: skyblue;
+}
+
+.header-text {
+  margin-left: 10px;
+}
+
+small.selected {
+  background-color: #f19433;
+  border-radius: 5px;
+  color: white;
+  font-size: 12px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+}
+
+small.selected {
+  display: none;
+}
+
+.form-horizontal {
+  margin-bottom: 200px;
+}
+
+.jumbotron {
+  margin-bottom: 1rem;
+  padding-bottom: 20px;
+  padding-top: 20px;
+}
+
+input[type="number"] {
+  width: 55px;
+}
+
+.white-text {
+  color: white !important;
+}
+
+.bottom {
+  margin-bottom: 300px;
+}
+
+.supplier {
+  cursor: pointer;
+}
+
+#supplier-template {
+  display: none;
+}
+
+.card-subtitle.description {
+  margin-top: 15px;
+  text-align: justify;
+  width: 80%;
+}
+
+.image {
+  position: absolute;
+  right: 20px;
+  top: 22px;
+  width: 100px;
+}

@@ -1,0 +1,145 @@
+.amazon-uy-data-box {
+  background-color: #fef8f2;
+  border-color: #e77600;
+  border-radius: 3px;
+  border-style: solid;
+  border-width: 1px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  padding: 10px;
+  text-decoration: none !important;
+  vertical-align: middle;
+}
+
+/* title */
+
+.amazon-uy-title-box {
+  background-color: #232F3E;
+  border-color: #232F3E;
+  display: flex;
+  float: left;
+  height: 22px;
+  margin-bottom: 10px;
+  width: 222px;
+}
+
+.amazon-uy-title-box span.triangle {
+  background-color: #fef8f2;
+  color: #232f3e;
+  border-right: 10px solid transparent;
+  border-top: 22px solid;
+  height: 0;
+  width: 0;
+}
+
+.amazon-uy-title-box span.white-text {
+  color: #fff;
+  font-family: "Amazon Ember", Arial !important;
+  font-size: 12px;
+  line-height: 22px;
+  margin-left: 8px;
+  margin-right: 3px;
+  min-width: 36px;
+}
+
+.amazon-uy-title-box span.skyblue-text {
+  line-height: 22px;
+  margin-left: 8px;
+  margin-right: 8px;
+  color: #56adf9;
+  font-family: "Amazon Ember", Arial !important;
+  font-size: 12px;
+  min-width: 24px;
+  width: auto;
+}
+
+/* supplier label */
+
+.amazon-uy-supplier {
+  background-color: #E47911;
+  border-radius: 0 3px 3px 0;
+  color: white;
+  float: right;
+  font-size: 12px;
+  font-weight: normal;
+  line-height: 14px;
+  margin-right: 4px;
+  padding-bottom: 2px;
+  padding-left: 9px;
+  padding-right: 10px;
+  padding-top: 2px;
+  position: relative;
+  text-align: right;
+}
+
+.amazon-uy-supplier .name:before {
+  -webkit-transform: translate3d(0,0,0);
+  border-color: rgba(255,255,255,0);
+  border-bottom: 6px solid #E47911;
+  border-style: dashed;
+  border-top-width: 0;
+  border-width: 10px;
+  border-bottom-width: 10px;
+  bottom: 0;
+  content: '';
+  font-size: 0;
+  height: 0;
+  left: -10px;
+  line-height: 0;
+  position: absolute;
+  transform: translate3d(0,0,0);
+  width: 0;
+}
+
+.amazon-uy-supplier .name:after {
+  -webkit-transform: translate3d(0,0,0);
+  border-color: rgba(255,255,255,0);
+  border-top: 6px solid #E47911;
+  border-style: dashed;
+  border-top-width: 0;
+  border-width: 10px;
+  border-top-width: 10px;
+  content: '';
+  font-size: 0;
+  height: 0;
+  left: -10px;
+  line-height: 0;
+  position: absolute;
+  transform: translate3d(0,0,0);
+  top: 0;
+  width: 0;
+}
+
+/* table */
+
+.amazon-uy-data-table tr.header {
+  border-bottom: 1px solid #efefef;
+}
+
+.amazon-uy-data-table th {
+  font-family: 'Amazon Ember', Arial, sans-serif !important;
+  font-size: 12px;
+  font-weight: normal;
+}
+
+.amazon-uy-data-table th.total {
+  font-weight: bold;
+}
+
+.amazon-uy-data-table td {
+  font-family: 'Amazon Ember', Arial, sans-serif !important;
+  font-size: 13px;
+}
+
+.amazon-uy-data-table td span.us-weight {
+  font-size: 10px;
+  margin-left: 5px;
+}
+
+.amazon-uy-data-table td.price {
+  color: #B12704;
+}
+
+.amazon-uy-data-table td.total {
+  color: #0066c0;
+}
