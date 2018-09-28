@@ -29,20 +29,20 @@ This will generate the `/dist`, and `/build` folders:
 
 3. Navigate to **chrome://extensions**
 
-![Image of Navigate](app/readme1.png)
+![Image of Navigate](app/images/readme1.png)
 
 4. Enable the 'Developer mode'.
 
-![Image of DeveloperMode](app/readme2.png)
+![Image of DeveloperMode](app/images/readme2.png)
 
 5. Click “Load Unpacked Extension” button.
 
-![Image of Load Unpacked](app/readme3.png)
+![Image of Load Unpacked](app/images/readme3.png)
 
 6. Navigate to the local folder where you have this project, and point to the `/build` folder, which contains the generated extension’s code and click OK.
 
 7. DONE! The extension is now available to use.
 
-![Image of Done](app/readme4.png)
+![Image of Done](app/images/readme4.png)
 
 Enjoy it.
