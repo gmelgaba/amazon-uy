@@ -2,12 +2,10 @@
 
 const gulp = require('gulp');
 const clean = require('gulp-clean');
-const cleanhtml = require('gulp-cleanhtml');
 const minifycss = require('gulp-minify-css');
 const uglify = require('gulp-uglify');
 const	zip = require('gulp-zip');
 const babel = require('gulp-babel');
-const runSequence = require('run-sequence');
 
 // Clean build directory
 gulp.task('clean', () => {
@@ -18,7 +16,6 @@ gulp.task('clean', () => {
 // Copy and compress HTML files
 gulp.task('html', () => {
 	return gulp.src('app/**/*.html')
-		.pipe(cleanhtml())
 		.pipe(gulp.dest('build'));
 });
 
@@ -52,7 +49,7 @@ gulp.task('compress', () => {
 	const manifest = require('./app/manifest');
 	const zipname = `${manifest.name} v${manifest.version}.zip`;
 	// build distributable extension
-	return gulp.src(['build/**', '!build/scripts/**/*.map'])
+	return gulp.src(['build/*'])
 		.pipe(zip(zipname))
 		.pipe(gulp.dest('dist'));
 });

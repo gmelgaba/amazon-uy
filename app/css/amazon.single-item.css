@@ -4,11 +4,12 @@
   border-radius: 3px;
   border-style: solid;
   border-width: 1px;
+  color: black;
+  display: block !important;
   margin-bottom: 10px;
   margin-top: 10px;
   padding: 10px;
   text-decoration: none !important;
-  vertical-align: middle;
 }
 
 /* title */
@@ -23,13 +24,17 @@
   width: 222px;
 }
 
-.amazon-uy-title-box span.triangle {
+.amazon-uy-title-box span.triangle, .amazon-uy-title-box span.triangle-absolute {
   background-color: #fef8f2;
   color: #232f3e;
   border-right: 10px solid transparent;
   border-top: 22px solid;
   height: 0;
   width: 0;
+}
+
+.amazon-uy-title-box span.triangle-absolute {
+  position: absolute;
 }
 
 .amazon-uy-title-box span.white-text {
