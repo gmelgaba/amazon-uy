@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Popup</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="../shared/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/popup.css">
+  <script src="../shared/scripts/jquery.min.js"></script>
+  <script src="../shared/scripts/logger.helper.js"></script>
+  <script src="../shared/scripts/chrome.helper.js"></script>
+  <script src="scripts/popup.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="header-amazon-logo">
+        <img src="../shared/images/amazon-logo.png" alt="Amazon">
+      </div>
+      <h3>
+        <span class="header-text-uy">UY</span>
+        <span class="header-text">Convertidor de datos</span>
+      </h3>
+    </div>
+    <hr>
+    <!-- <div class="jumbotron">
+      <p>Amazon UY es una extensión de Google Chrome que sirve para estimar el costo de envío a Uruguay de cada producto según su peso, facilitando las compras a ese destino.</p>
+    </div> -->
+    <div class="card">
+      <div class="card-body">
+        <p>Agrega la informacion de envio en tu carrito de compra. Tenga en cuenta que se abriran multiples pestañas en su navegador por cada producto, obteniendo la informacion relevante de los mismos.</p>
+        <div id="cart" class="btn btn-warning">
+          <i class="fas fa-shopping-cart"></i>
+          Obtener Informacion del carrito
+        </div>
+      </div>
+    </div>
+    <div class="card" style="width: 200px; float: left;">
+      <div class="card-body">
+        <p>Recarga el contenido de la extensión en la pagina actual.</p>
+        <div id="reload" class="btn btn-warning">
+          <i class="fas fa-sync-alt"></i>
+          Recargar extension
+        </div>
+      </div>
+    </div>
+    <div class="card" style="width: 200px; float: left; margin-left: 30px; margin-bottom: 40px;">
+      <div class="card-body">
+        <p>Acceder a la configuración de la extensión.</p>
+        <a class="btn btn-warning" href="../background/index.html" target="_blank">
+          <i class="fas fa-cog"></i>
+          Configuracion
+        </a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

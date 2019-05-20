@@ -1,13 +1,12 @@
-let current = {};
-const storageKey = 'amazon-uy-settings';
+const storageKey = STORAGE_KEYS.settings;
 
 // Actions
 
 const saveSupplier = () => {
-  chrome.storage.sync.get(storageKey, (data) => {
-    const supplierIndex = data[storageKey].suppliers.findIndex(s => s.id === current.id);
-    data[storageKey].suppliers[supplierIndex].prices[0].value = parseFloat($('input.price-value').val());
-    chrome.storage.sync.set(data);
+  BROWSER.storage.get(storageKey, (data) => {
+    const supplierIndex = data[storageKey].settings.suppliers.findIndex(s => s.id === current.id);
+    data[storageKey].settings.suppliers[supplierIndex].prices[0].value = parseFloat($('input.price-value').val());
+    BROWSER.storage.set(data);
   });
 }
 
@@ -16,11 +15,13 @@ const selectSupplier = (evt) => {
   const supplierId = $clicked.data('id');
 
   // Save selected supplier
-  chrome.storage.sync.get(storageKey, (data) => {
-    const settings = data[storageKey];
+  BROWSER.storage.get(storageKey, (data) => {
+    const { settings } = data[storageKey];
     settings.currentSupplier = supplierId;
-    chrome.storage.sync.set({
-      [storageKey]: settings
+    BROWSER.storage.set({
+      [storageKey]: {
+        settings
+      }
     });
     const currentSupplier = settings.suppliers.find(s => s.id === supplierId);
     loadCurrentSupplier(currentSupplier);
@@ -32,7 +33,6 @@ const selectSupplier = (evt) => {
 // Initial setup
 
 const loadCurrentSupplier = (supplier) => {
-  current = supplier;
   const $supplierData = $('#supplier-data');
   $supplierData.find('.btn').attr('data-id', supplier.id);
   $supplierData.find('.name').html(supplier.name);
@@ -44,11 +44,11 @@ const loadCurrentSupplier = (supplier) => {
 }
 
 const loadSuppliers = () => {
-  chrome.storage.sync.get(storageKey, (data) => {
-    const settings = data[storageKey];
+  BROWSER.storage.get(storageKey, (data) => {
+    const { settings } = data[storageKey];
     if (!settings || !settings.suppliers) return;
-    const { currentSupplier } = settings;
-    settings.suppliers.forEach(supplier => {
+    const { currentSupplier, suppliers } = settings;
+    suppliers.forEach(supplier => {
       const $supplier = $('#supplier-template').clone();
       $supplier.removeAttr('id');
       $supplier.attr('data-id', supplier.id);

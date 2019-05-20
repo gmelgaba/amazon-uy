@@ -3,7 +3,8 @@
   "name": "AmazonUY",
   "version": "1.0",
   "browser_action": {
-    "default_icon": "images/icon-128.png"
+    "default_icon": "images/icon-128.png",
+    "default_popup": "src/popup/popup.html?mode=popup"
   },
   "icons": {
     "16": "images/icon-16.png",
@@ -17,25 +18,40 @@
   ],
   "background": {
     "scripts": [
-      "background.js"
+      "config/settings.js",
+      "src/shared/scripts/jquery.min.js",
+      "src/shared/scripts/keys.helper.js",
+      "src/shared/scripts/chrome.helper.js",
+      "src/shared/scripts/logger.helper.js",
+      "src/shared/scripts/product.helper.js",
+      "src/background/background.js"
     ]
   },
   "content_scripts": [
     {
       "matches": [
         "http://www.amazon.com/*",
-        "https://www.amazon.com/*"
+        "https://www.amazon.com/*",
+        "http://smile.amazon.com/*",
+        "https://smile.amazon.com/*"
       ],
       "js": [
-        "js/jquery-3.1.1.min.js",
-        "content.js"
+        "src/shared/scripts/jquery.min.js",
+        "src/shared/scripts/keys.helper.js",
+        "src/shared/scripts/chrome.helper.js",
+        "src/shared/scripts/logger.helper.js",
+        "src/shared/scripts/product.helper.js",
+        "src/content/content.js"
       ],
       "css": [
-        "css/amazon.single-item.css"
+        "src/shared/css/amazon.product.css",
+        "src/shared/css/amazon.cart.css"
       ]
     }
   ],
   "web_accessible_resources": [
+    "/src/*",
+    "/images/*",
     "settings.json"
   ]
 }

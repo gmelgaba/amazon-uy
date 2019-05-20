@@ -1,0 +1,29 @@
+body {
+  padding: 20px 20px 50px 20px;
+  width: 500px;
+}
+
+.jumbotron {
+  margin-bottom: 10px;
+  padding-top: 20px;
+  padding-bottom: 10px;
+}
+
+.card {
+  margin-bottom: 10px;
+}
+
+.header {
+  height: 40px;
+  margin-top: 20px;
+}
+
+.header-amazon-logo {
+  float: left;
+  height: 100%;
+  margin-top: -5px;
+}
+
+.header-text-uy {
+  color: skyblue;
+}
