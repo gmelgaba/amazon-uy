@@ -78,7 +78,7 @@ window.PRODUCT = (() => {
     if (!present) return dataObject();
     let uyWeight = '';
     if (usWeightString.toLowerCase().indexOf('ounce') !== -1
-    || usWeightString.toLowerCase().indexOf('onza') !== -1) {
+      || usWeightString.toLowerCase().indexOf('onza') !== -1) {
       // 1 ounce / 35.274 = 1 kg
       uyWeight = (usWeightValue / 35.274).toFixed(2);
     } else if (usWeightString.indexOf('pound') !== -1) {
@@ -123,7 +123,7 @@ window.PRODUCT = (() => {
     }
   };
 
-	return {
+  return {
     needsHomologation: _needsHomologation,
     getASIN: _getASIN,
     getASINFromURL: _getASINFromURL,

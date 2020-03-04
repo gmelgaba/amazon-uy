@@ -2,7 +2,7 @@
 
 window.STORAGE_KEYS = (() => {
 
-	return {
+  return {
 
     // Stores the current settings of the whole extension.
     settings: 'amazon-uy-settings',

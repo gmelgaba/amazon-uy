@@ -5,7 +5,7 @@ window.LOGGER = (() => {
   const BLUE_BG_ORANGE_TEXT = 'background: #232F3E; color: #d67f42';
   const BLUE_BG_WHITE_TEXT = 'background: #232F3E; color: #FFFFFF';
 
-	return {
+  return {
 
     log: (message, obj) => {
       if (obj) {

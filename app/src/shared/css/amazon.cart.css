@@ -1,7 +1,6 @@
 /* Cart */
 
 .amazon-uy-total-data-container {
-  margin-top: 15px;
   background-color: #fef8f2;
   border-color: #e77600;
   border-radius: 3px;
@@ -9,15 +8,26 @@
   border-width: 1px;
   color: black;
   display: block !important;
+  float: right;
   margin-bottom: 10px;
   margin-top: 10px;
+  max-width: 300px;
   padding: 10px;
   text-decoration: none !important;
 }
 
+.amazon-uy-cart-data {
+  position: absolute;
+  right: 15%;
+}
+
 .amazon-uy-cart-shipping-header {
+  color: #555;
+  float: right;
   font-size: 13px;
+  line-height: 18px;
   margin-left: 70px;
+  margin-right: 25px;
   margin-top: 4px;
 }
 

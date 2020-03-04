@@ -1,13 +1,10 @@
-// TODO: support
-// ----------
-// weird product page: https://www.amazon.com/gp/product/B07BNXPG3X/ref_%3Dcpl_SL_sunspryhqp/ref=amb_link_7?pf_rd_m=ATVPDKIKX0DER&pf_rd_s=hero-quick-promo&pf_rd_r=J2DDE5AQ0Z821GTQ0HQC&pf_rd_r=J2DDE5AQ0Z821GTQ0HQC&pf_rd_t=201&pf_rd_p=fd59865d-9202-4c96-8dd7-9e06650c0263&pf_rd_p=fd59865d-9202-4c96-8dd7-9e06650c0263&pf_rd_i=B075MDJ87H
+/*
+  File: content.js
+  Purpose: handle all logic for the content script
+  Author: Gonzalo Melgar
 
-// wrong prices pages:
-//   https://www.amazon.com/dp/B00E7D3V4S/ref=sxbs_sxwds-stppvp_2?pf_rd_m=ATVPDKIKX0DER&pf_rd_p=d45777d6-4c64-4117-8332-1659db52e64f&pd_rd_wg=oWXQW&pf_rd_r=3AF693C19W8QHK9FXDCR&pf_rd_s=desktop-sx-bottom-slot&pf_rd_t=301&pd_rd_i=B00E7D3V4S&pd_rd_w=ih85p&pf_rd_i=Compact+Router&pd_rd_r=ef67019d-62c5-4e69-b9c4-77c4c8072481&ie=UTF8&qid=1538596545&sr=2
-//   https://www.amazon.com/Kreg-KMA2600-Square-Cut/dp/B003ARSYQM/ref=pd_bxgy_469_3?_encoding=UTF8&pd_rd_i=B003ARSYQM&pd_rd_r=5dcf9f7a-c732-11e8-8c11-7fd735fac2a8&pd_rd_w=htydI&pd_rd_wg=MG4Z5&pf_rd_i=desktop-dp-sims&pf_rd_m=ATVPDKIKX0DER&pf_rd_p=3f9889ac-6c45-46e8-b515-3af650557207&pf_rd_r=M23HNYRK92A488GJWKS0&pf_rd_s=desktop-dp-sims&pf_rd_t=40701&psc=1&refRID=M23HNYRK92A488GJWKS0
-
-// NOT WORKING!
-//   https://www.amazon.com/What-Do-You-Meme-Expansion/dp/B077S5SB6L/ref=pd_rhf_sc_s_cp_0_4?_encoding=UTF8&pd_rd_i=B077S5SB6L&pd_rd_r=2ae1393b-93cd-456f-84eb-039065447f39&pd_rd_w=5O6sd&pd_rd_wg=qj2u0&psc=1&refRID=3MZQSFJQXYN54VE5FRVC
+  Copyright (c) 2019
+*/
 
 const HOST = `${window.location.protocol}//${window.location.hostname}`;
 
@@ -262,8 +259,9 @@ const injectTotal = (total) => {
   $cartDataContainer.append($price);
 
   if (isCartPage()) {
-    const $container = $('.sc-subtotal').find('p');
-    $container.after($cartDataContainer);
+    const $container = $('.sc-subtotal');
+    $container.append('<br>');
+    $container.append($cartDataContainer);
   } else {
     const $container = $('h5:contains("Order Summary")').parent();
     $container.append($cartDataContainer);
@@ -349,7 +347,7 @@ const run = () => {
       }, 1000);
     }
 
-  } else if (isCartPage() || isOrderDetailsPage()) {
+  } else if (isCartPage()) {
 
     // Load selected supplier data
     const storageKey = STORAGE_KEYS.settings;

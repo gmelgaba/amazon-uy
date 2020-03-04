@@ -1,3 +1,11 @@
+/*
+  File: background.js
+  Purpose: handle all logic for the background script
+  Author: Gonzalo Melgar
+
+  Copyright (c) 2019
+*/
+
 const storageKey = STORAGE_KEYS.settings;
 
 BROWSER.addClickListener((tab) => {

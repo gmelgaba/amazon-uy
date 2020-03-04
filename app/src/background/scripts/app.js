@@ -2,9 +2,10 @@ const storageKey = STORAGE_KEYS.settings;
 
 // Actions
 
-const saveSupplier = () => {
+const saveSupplierData = () => {
   BROWSER.storage.get(storageKey, (data) => {
-    const supplierIndex = data[storageKey].settings.suppliers.findIndex(s => s.id === current.id);
+    const { currentSupplier } = data['amazon-uy-settings'].settings;
+    const supplierIndex = data[storageKey].settings.suppliers.findIndex(s => s.id === currentSupplier);
     data[storageKey].settings.suppliers[supplierIndex].prices[0].value = parseFloat($('input.price-value').val());
     BROWSER.storage.set(data);
   });
@@ -66,5 +67,5 @@ const loadSuppliers = () => {
 
 $(document).ready(() => {
   loadSuppliers();
-  $('#save-supplier').click(saveSupplier)
+  $('#save-supplier').click(saveSupplierData);
 });
