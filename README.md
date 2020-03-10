@@ -13,7 +13,7 @@ npm install
 To generate the code with all the files needed just run:
 
 ```sh
-npm run-script build
+npm run build
 ```
 
 This will generate a `/build` folder, containing the chrome extension's code to be loaded in the browser.
@@ -22,7 +22,7 @@ This will generate a `/build` folder, containing the chrome extension's code to 
 To generate a zip file with the chorme extension files, just run:
 
 ```sh
-npm run-script zip
+npm run zip
 ```
 
 This will re-build the code and create the `/dist` folder, containing a zipfile with the generated code.
@@ -31,23 +31,25 @@ This will re-build the code and create the `/dist` folder, containing a zipfile 
 
 1. Clone this repo to your own computer.
 
-2. Open Google Chrome.
+2. Open the terminal, go to the repo folder, and type `npm install`.
 
-3. Navigate to **chrome://extensions**
+3. Once you installed all the dependencies, you'll need to build the extension by doing `npm run build`.
+
+4. Now that you have the chrome extension built, open Google Chrome. and navigate to **chrome://extensions**
 
 ![Image of Navigate](app/images/readme1.png)
 
-4. Enable the 'Developer mode'.
+5. Enable the 'Developer mode'.
 
 ![Image of DeveloperMode](app/images/readme2.png)
 
-5. Click “Load Unpacked Extension” button.
+6. Click “Load Unpacked Extension” button.
 
 ![Image of Load Unpacked](app/images/readme3.png)
 
-6. Navigate to the local folder where you have this project, and point to the `/build` folder, which contains the generated extension’s code and click OK.
+7. Navigate to the local folder where you have this project, and point to the `/build` folder, which contains the generated extension’s code and click OK.
 
-7. DONE! The extension is now available to use.
+8. DONE! The extension is now available to use.
 
 ![Image of Done](app/images/readme4.png)
 
