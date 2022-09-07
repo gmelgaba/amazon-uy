@@ -15,7 +15,7 @@ BROWSER.addClickListener((tab) => {
   }, (tab) => {
     var activeTab = tabs[0];
     BROWSER.sendMessageToTab(activeTab.id, {
-      action: 'inject-single-product-data'
+      action: 'inject-product-data'
     });
   })
 });

@@ -6,29 +6,30 @@
   Copyright (c) 2019
 */
 
-const HOST = `${window.location.protocol}//${window.location.hostname}`;
+// ---------
+// Constants
+// ---------
 
+const HOST = `${window.location.protocol}//${window.location.hostname}`;
+const CART_LOCALSTORAGE_KEY = STORAGE_KEYS.cart;
+const PRODUCT_KEY = STORAGE_KEYS.product(PRODUCT.getProductASIN());
 const supplier = {
   name: '',
   price: 0
 };
 
-const regexps = {
-  shippingWeight: /.*?(\d*\.*\d*\s*(ounce(s)*|pound(s)*|onza(s)*)).*/g, // 11 ounces (View policies) > 11 ounces
-  shippingWeightValue: /(\d*\.*\d*)\s*(ounce(s)*|pound(s)*|onza(s)*)/, // 3 pounds > 3
-  shippingWeightUYValue: /(\d*\.*\d*).*/,  // 0.78 kg > 0.78
-  priceValue: /\$\s*(\d*\,*\d*\.*\d*)/, // $11.23 > 11.23
-  asinFromURL: /\/product\/(.*?)(\/|\?)/ // https://www.amazon.com/gp/product/B075Z3BM3N/ref=ox_sc_saved_title_2?smid=AA6OXOM7IEXHP&psc=1 >> B075Z3BM3N
+// ---------------
+// Boolean methods
+// ---------------
+
+const isInjectionPresent = () => {
+  return !!$('.amazon-uy-data-box').length
+      || !!$('.amazon-uy-cart-data').length
+      || !!$('.amazon-uy-total-data-container').length;
 };
 
 const isBlackTitlePage = () => {
   return !!$('#titleBar.superleaf').length;
-};
-
-const injectionPresent = () => {
-  return !!$('.amazon-uy-data-box').length
-      || !!$('.amazon-uy-cart-data').length
-      || !!$('.amazon-uy-total-data-container').length;
 };
 
 const isOpenedByTheExtension = () => {
@@ -49,92 +50,36 @@ const isOrderDetailsPage = () => {
   return window.location.href.indexOf('/order-details/') > -1;
 };
 
-const {
-  needsHomologation,
-  getASINFromURL,
-  getProductASIN,
-  getPrice,
-  getProductData
-} = PRODUCT;
+// --------------
+// Helper methods
+// --------------
 
-const CART_KEY = STORAGE_KEYS.cart;
-const PRODUCT_KEY = STORAGE_KEYS.product(getProductASIN());
+const transformToSingleColumn = ($element) => {
+  $element.removeClass('a-span2');
+  $element.addClass('a-span1');
+};
 
-// ----------------
-// Message handlers
-// ----------------
+const saveProductData = (productData) => {
+  const { asin } = productData;
 
-const injectProductData = () => {
-
-  const data = getProductData();
-
-  // Store product data
-  storeProductData(data);
-
-  // App Label
-  const $title = $('<div>', { class: 'amazon-uy-title-box' })
-  const $span1 = $('<span>', { class: 'white-text', html: 'Amazon\'s UY' });
-  const $span2 = $('<span>', { class: 'skyblue-text', html: 'Convertidor de datos' });
-  const triangleClasses = isBlackTitlePage() ? 'triangle-absolute' : 'triangle';
-  const $span3 = $('<span>', { class: triangleClasses });
-  $title.append($span1);
-  $title.append($span2);
-  $title.append($span3);
-
-  // Supplier Label
-  const $supplier = $('<div>', { class: 'amazon-uy-supplier' })
-  const $span4 = $('<span>', { class: 'name', html: supplier.name });
-  $supplier.append($span4);
-
-  // Table header row
-  const $header = $('<tr>', { class: 'header' });
-  $header.append('<th>Peso del envío</th>');
-  $header.append('<th>Precio</th>');
-  $header.append('<th>Costo del envío</th>');
-  $header.append('<th class="total">Total</th>');
-
-  // Table data row
-  const $data = $('<tr>');
-  if (data.shippingWeight.present) {
-    $data.append(`<td><span>${data.shippingWeightUY.string}</span><span class="us-weight">(${data.shippingWeight.string})</span></td>`);
-  } else {
-    $data.append(`<td>${data.shippingWeightUY.string}</td>`);
-  }
-  $data.append(`<td class="price">${data.price.string}</td>`);
-  $data.append(`<td class="price">${data.shippingPriceUY.string}</td>`);
-  $data.append(`<td class="total">${data.total.string}</th>`);
-
-  // Custom Table
-  const $table = $('<table>', { class: 'amazon-uy-data-table' });
-  $table.append($header);
-  $table.append($data);
-
-  // Content box
-  const $content = $('<div>', { class: 'amazon-uy-data-box' });
-  $content.append($title);
-  $content.append($supplier);
-  $content.append($table);
-
-  if (needsHomologation(data.title)) {
-    const $separator = $('<p>', { html: '--' });
-    const $note = $('<p>', { html: '<i>Atención:</i> pareceria que este producto tiene señales radioeléctricas. Para enviarlo a Uruguay, deberá seguir una serie de pasos, abonar un costo adicional, y ponerse en contacto con su proveedor.', class: 'homologation-note' });
-    const $vucelink = $('<a>', {
-      href: 'http://vuce.gub.uy/wp-content/uploads/2016/03/Manual-U002-persona-fisica-c_flujo-v11.pdf',
-      html: 'Procedimiento VUCE para la homologación de equipos radioeléctricos de la URSEC para personas físicas.',
-      target: '_blank'
+  // Store the asin into the storage cart
+  // Cart example:
+  //    ['asin1', 'asin2', ... , 'asinN']
+  BROWSER.storage.get(CART_LOCALSTORAGE_KEY, (data) => {
+    const { cart = [] } = data[CART_LOCALSTORAGE_KEY] || {};
+    if (!cart.includes(asin)) {
+      cart.push(productData.asin);
+    }
+    data[CART_LOCALSTORAGE_KEY] = { cart };
+    BROWSER.storage.set(data, () => {
+      LOGGER.log('cart', cart);
     });
-    $content.append($separator);
-    $content.append($note);
-    $content.append($vucelink);
-  }
+  });
 
-  $('.amazon-uy-data-box').remove();
-
-  let $container = $('#titleSection');
-  if (!$container.length) {
-    $container = $('#title').parent();
-  }
-  $container.append($content);
+  // Store the product in the browser storage
+  BROWSER.storage.set({ [PRODUCT_KEY]: productData }, () => {
+    LOGGER.log('cart product stored', { [PRODUCT_KEY]: productData });
+  });
 };
 
 const getCartProducts = () => {
@@ -169,32 +114,81 @@ const getOrderProducts = () => {
   return urls;
 };
 
-const storeProductData = (productData) => {
-  const { asin } = productData;
+// -----------------
+// Injection methods
+// -----------------
 
-  // Store the asin into the storage cart
-  // Cart example:
-  //    ['asin1', 'asin2', ... , 'asinN']
-  BROWSER.storage.get(CART_KEY, (data) => {
-    const { cart = [] } = data[CART_KEY] || {};
-    if (!cart.includes(asin)) {
-      cart.push(productData.asin);
-    }
-    data[CART_KEY] = { cart };
-    BROWSER.storage.set(data, () => {
-      LOGGER.log('cart', cart);
+const injectProductData = () => {
+
+  const data = PRODUCT.getProductData();
+
+  // Store product data
+  saveProductData(data);
+
+  // App Label
+  const $title = $('<div>', { class: 'amazon-uy-title-box' })
+  const $span1 = $('<span>', { class: 'white-text', html: 'Amazon\'s UY' });
+  const $span2 = $('<span>', { class: 'skyblue-text', html: 'Convertidor de datos' });
+  const triangleClasses = isBlackTitlePage() ? 'triangle-absolute' : 'triangle';
+  const $span3 = $('<span>', { class: triangleClasses });
+  $title.append($span1);
+  $title.append($span2);
+  $title.append($span3);
+
+  // Supplier Label
+  const $supplier = $('<div>', { class: 'amazon-uy-supplier' })
+  const $span4 = $('<span>', { class: 'name', html: supplier.name });
+  $supplier.append($span4);
+
+  // Table header row
+  const $header = $('<tr>', { class: 'header' });
+  $header.append(`<th>${data.shippingWeight.header}</th>`);
+  $header.append('<th>Precio del producto</th>');
+  $header.append('<th>Costo del envío</th>');
+  $header.append('<th class="total">Total</th>');
+
+  // Table data row
+  const $data = $('<tr>');
+  if (data.shippingWeight.present) {
+    $data.append(`<td><span>${data.shippingWeightUY.string}</span><span class="us-weight">(${data.shippingWeight.string})</span></td>`);
+  } else {
+    $data.append(`<td>${data.shippingWeightUY.string}</td>`);
+  }
+  $data.append(`<td class="price">${data.price.string}</td>`);
+  $data.append(`<td class="price">${data.shippingPriceUY.string}</td>`);
+  $data.append(`<td class="total">${data.total.string}</th>`);
+
+  // Custom Table
+  const $table = $('<table>', { class: 'amazon-uy-data-table' });
+  $table.append($header);
+  $table.append($data);
+
+  // Content box
+  const $content = $('<div>', { class: 'amazon-uy-data-box' });
+  $content.append($title);
+  $content.append($supplier);
+  $content.append($table);
+
+  if (PRODUCT.needsHomologation(data.title)) {
+    const $separator = $('<p>', { html: '--' });
+    const $note = $('<p>', { html: '<i>Atención:</i> pareceria que este producto tiene señales radioeléctricas. Para enviarlo a Uruguay, deberá seguir una serie de pasos, abonar un costo adicional, y ponerse en contacto con su proveedor.', class: 'homologation-note' });
+    const $vucelink = $('<a>', {
+      href: 'http://vuce.gub.uy/wp-content/uploads/2016/03/Manual-U002-persona-fisica-c_flujo-v11.pdf',
+      html: 'Procedimiento VUCE para la homologación de equipos radioeléctricos de la URSEC para personas físicas.',
+      target: '_blank'
     });
-  });
+    $content.append($separator);
+    $content.append($note);
+    $content.append($vucelink);
+  }
 
-  // Store the product in the browser storage
-  BROWSER.storage.set({ [PRODUCT_KEY]: productData }, () => {
-    LOGGER.log('cart product stored', { [PRODUCT_KEY]: productData });
-  });
-};
+  $('.amazon-uy-data-box').remove();
 
-const transformToSingleColumn = ($element) => {
-  $element.removeClass('a-span2');
-  $element.addClass('a-span1');
+  let $container = $('#titleSection');
+  if (!$container.length) {
+    $container = $('#title').parent();
+  }
+  $container.append($content);
 };
 
 const injectCartHeader = () => {
@@ -208,6 +202,9 @@ const injectCartHeader = () => {
 };
 
 const injectCartData = (cartItem, data) => {
+  LOGGER.group('>>>>> InjectCartData');
+  console.log('cartItem', cartItem);
+  console.log('data', data);
   const { domReference } = cartItem;
 
   const $container = $('<div>', { class: 'amazon-uy-cart-data' });
@@ -224,9 +221,9 @@ const injectCartData = (cartItem, data) => {
   } else {
     $container.append($price);
   }
-  let $cartPrice = $(domReference).find('.a-span2').first();
+  let $cartPrice = $(domReference).find('.a-spacing-mini').first();
   $cartPrice.after($container);
-  LOGGER.log('message received', $cartPrice);
+  LOGGER.groupEnd();
 };
 
 const injectTotal = (total) => {
@@ -242,9 +239,9 @@ const injectTotal = (total) => {
   $weight.append($text);
   $weight.append($cost);
 
-  const $supplier = $('<p>', { class: 'amazon-uy-cart-data-row' });
-  $span1 = $('<span>', { html: 'Proveedor seleccionado: ' });
-  $span2 = $('<span>', { html: supplier.name });
+  const $supplier = $('<p>', { class: 'amazon-uy-cart-data-row amazon-uy-cart-data-row-supplier' });
+  const $span1 = $('<span>', { html: '(Proveedor seleccionado: ' });
+  const $span2 = $('<span>', { html: `${supplier.name})` });
   $supplier.append($span1);
   $supplier.append($span2);
 
@@ -268,32 +265,9 @@ const injectTotal = (total) => {
   }
 };
 
-// ----------------
-// Message Listener
-// ----------------
+const injectExtension = () => {
 
-BROWSER.addMessageListener((request, sender, sendResponse) => {
-  LOGGER.log('message received', request.action);
-  switch (request.action) {
-    case 'inject-single-product-data':
-      injectProductData();
-      break;
-    case 'get-cart-urls':
-      const items = getCartProducts();
-      const urls = items.map(item => item.url);
-      sendResponse(urls);
-      break;
-    case 'reload':
-      run();
-      break;
-    default:
-      break;
-  }
-});
-
-const run = () => {
-
-  if (injectionPresent()) {
+  if (isInjectionPresent()) {
 
     $('.amazon-uy-data-box').remove();
     $('.amazon-uy-cart-data').remove();
@@ -310,7 +284,7 @@ const run = () => {
     $('.sc-action-delete, .sc-action-save-for-later, .sc-action-move-to-cart').click(() => {
       LOGGER.log('Action cart link clicked!');
       setTimeout(() => {
-        run();
+        injectExtension();
       }, 1700);
     });
 
@@ -331,10 +305,10 @@ const run = () => {
     // TODO: if there's variants that change the DOM
     if (true) {
       $('.a-button, .a-section').click(() => {
-        const currentPrice = getPrice();
+        const currentPrice = PRODUCT.getPrice();
         setTimeout(() => {
-          const secondPrice = getPrice();
-          if (!injectionPresent() || (currentPrice.value !== secondPrice.value)) {
+          const secondPrice = PRODUCT.getPrice();
+          if (!isInjectionPresent() || (currentPrice.value !== secondPrice.value)) {
             injectProductData();
           }
         }, 3000);
@@ -361,13 +335,13 @@ const run = () => {
     // Load each product information from storage
     const items = (isCartPage()) ? getCartProducts() : getOrderProducts();
     const URLS = items.map(item => item.url);
-    const itemsAsins = URLS.map(url => getASINFromURL(url));
+    const itemsAsins = URLS.map(url => PRODUCT.getASINFromURL(url));
 
     // Inject the custom header to the cart table
     injectCartHeader();
 
-    BROWSER.storage.get(CART_KEY, (data) => {
-      const { cart: storedCart = [] } = data[CART_KEY];
+    BROWSER.storage.get(CART_LOCALSTORAGE_KEY, (data) => {
+      const { cart: storedCart = [] } = data[CART_LOCALSTORAGE_KEY] || {};
       let total = {
         price: 0,
         weight: 0
@@ -380,6 +354,7 @@ const run = () => {
       const nonStoredAsins = storedCart.filter(value => itemsAsins.indexOf(value) < 0);
 
       // Inject the product data from storage
+      LOGGER.group('Product data from storage');
       itemsAsins.forEach((asin, index) => {
         if (storedAsins.includes(asin)) {
           const asinKey = STORAGE_KEYS.product(asin);
@@ -408,11 +383,12 @@ const run = () => {
           LOGGER.log('Product REMOVED from storage', asin);
         });
       });
+      LOGGER.groupEnd();
 
       // Update cart with only the current items
-      BROWSER.storage.get(CART_KEY, (data) => {
-        const { cart = [] } = data[CART_KEY] || {};
-        data[CART_KEY] = { cart: storedAsins };
+      BROWSER.storage.get(CART_LOCALSTORAGE_KEY, (data) => {
+        const { cart = [] } = data[CART_LOCALSTORAGE_KEY] || {};
+        data[CART_LOCALSTORAGE_KEY] = { cart: storedAsins };
         BROWSER.storage.set(data);
       });
 
@@ -426,4 +402,27 @@ const run = () => {
 
 };
 
-run();
+// ----------------
+// Message Listener
+// ----------------
+
+BROWSER.addMessageListener((request, sender, sendResponse) => {
+  LOGGER.log('message received', request.action);
+  switch (request.action) {
+    case 'inject-product-data':
+      injectProductData();
+      break;
+    case 'retrieve-cart-urls':
+      const items = getCartProducts();
+      const urls = items.map(item => item.url);
+      sendResponse(urls);
+      break;
+    case 'reload-extension':
+      injectExtension();
+      break;
+    default:
+      break;
+  }
+});
+
+injectExtension();

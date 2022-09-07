@@ -1,6 +1,6 @@
 {
   "name": "amazon-uy",
-  "version": "1.0.0",
+  "version": "2.1.3",
   "description": "Amazon UY es una extension de chrome cuyo objetivo es facilitar al usuario sus compras de amazon con destino Uruguay.",
   "main": "background.js",
   "scripts": {
@@ -12,12 +12,11 @@
   "devDependencies": {
     "@babel/core": "^7.0.1",
     "@babel/preset-env": "^7.0.0",
-    "babelify": "^10.0.0",
-    "gulp": "4.0.0",
+    "gulp": "4.0.2",
     "gulp-babel": "8.0.0",
     "gulp-clean": "0.4.0",
-    "gulp-minify-css": "1.2.4",
-    "gulp-uglify": "3.0.1",
-    "gulp-zip": "4.2.0"
+    "gulp-clean-css": "4.3.0",
+    "gulp-uglify": "3.0.2",
+    "gulp-zip": "5.1.0"
   }
 }

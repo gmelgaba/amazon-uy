@@ -2,9 +2,9 @@
 
 const gulp = require('gulp');
 const clean = require('gulp-clean');
-const minifycss = require('gulp-minify-css');
+const cleancss = require('gulp-clean-css');
 const uglify = require('gulp-uglify');
-const	zip = require('gulp-zip');
+const zip = require('gulp-zip');
 const babel = require('gulp-babel');
 
 // Clean build directory
@@ -32,11 +32,11 @@ gulp.task('scripts', () => {
 // Minify styles
 gulp.task('styles', () => {
 	return gulp.src('app/**/*.css')
-		.pipe(minifycss())
+		.pipe(cleancss())
 		.pipe(gulp.dest('build'));
 });
 
-// Copy static folders to build directory
+// Copy static files/folders to build directory
 gulp.task('copy', () => {
 	gulp.src('app/**/*.png')
 		.pipe(gulp.dest('build'));
@@ -49,7 +49,7 @@ gulp.task('compress', () => {
 	const manifest = require('./app/manifest');
 	const zipname = `${manifest.name} v${manifest.version}.zip`;
 	// build distributable extension
-	return gulp.src(['build/*'])
+	return gulp.src(['build/**'])
 		.pipe(zip(zipname))
 		.pipe(gulp.dest('dist'));
 });

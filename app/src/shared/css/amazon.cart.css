@@ -26,8 +26,7 @@
   float: right;
   font-size: 13px;
   line-height: 18px;
-  margin-left: 70px;
-  margin-right: 25px;
+  margin-right: 100px;
   margin-top: 4px;
 }
 
@@ -56,4 +55,9 @@
 .amazon-uy-data-shipping-total-weight-amount {
   color: #B12704;
   margin-left: 5px;
+}
+
+.amazon-uy-cart-data-row-supplier {
+  text-transform: lowercase;
+  text-decoration: underline;
 }

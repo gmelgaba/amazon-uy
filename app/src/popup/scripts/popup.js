@@ -10,7 +10,7 @@ const newTab = () => {
   BROWSER.queryTabs({ active: true, currentWindow: true }, (tabs) => {
     const currentTab = tabs[0].id;
     BROWSER.sendMessageToTab(currentTab, {
-      action: 'get-cart-urls'
+      action: 'retrieve-cart-urls'
     }, (res) => {
       if (res && res.length) {
         const URLS = res;
@@ -32,7 +32,7 @@ const reload = () => {
   BROWSER.queryTabs({ active: true, currentWindow: true }, (tabs) => {
     const currentTab = tabs[0].id;
     BROWSER.sendMessageToTab(currentTab, {
-      action: 'reload'
+      action: 'reload-extension'
     });
   })
 }

@@ -2,9 +2,15 @@
 
 window.PRODUCT = (() => {
 
-  // Private Methods
+  const _regexps = {
+    shippingWeight: /.*?(\d*\.*\d*\s*(ounce(s)*|pound(s)*|onza(s)*)).*/g, // 11 ounces (View policies) > 11 ounces
+    shippingWeightValue: /(\d*\.*\d*)\s*(ounce(s)*|pound(s)*|onza(s)*)/, // 3 pounds > 3
+    shippingWeightUYValue: /(\d*\.*\d*).*/,  // 0.78 kg > 0.78
+    priceValue: /\$\s*(\d*\,*\d*\.*\d*)/, // $11.23 > 11.23
+    asinFromURL: /\/product\/(.*?)(\/|\?)/ // https://www.amazon.com/gp/product/B075Z3BM3N/ref=ox_sc_saved_title_2?smid=AA6OXOM7IEXHP&psc=1 >> B075Z3BM3N
+  };
 
-  const dataObject = (string, regexp) => {
+  const dataObject = (string, regexp, extraParameters) => {
     let present = !!string;
     let value, match;
     if (present && (match = string.match(regexp))) {
@@ -14,7 +20,8 @@ window.PRODUCT = (() => {
     return {
       present,
       string,
-      value
+      value,
+      ...extraParameters
     };
   };
 
@@ -33,7 +40,7 @@ window.PRODUCT = (() => {
 
   const _getASINFromURL = (url = window.location.href) => {
     let match;
-    if (match = url.match(regexps.asinFromURL)) {
+    if (match = url.match(_regexps.asinFromURL)) {
       return match[1];
     }
   };
@@ -51,17 +58,21 @@ window.PRODUCT = (() => {
   };
 
   const _getPrice = () => {
-    let price = $('#price .a-color-price').first().text().trim();
+    let price = $('span.a-price .a-offscreen').first().text().trim();
+    if (!price) {
+      price = $('#price .a-color-price').first().text().trim();
+    }
     if (!price) {
       price = $('span.a-color-price').first().text().trim();
     }
     if (!price) {
       price = $('.priceToPayPadding').first().text().trim();
     }
-    return dataObject(price, regexps.priceValue);
+    return dataObject(price, _regexps.priceValue);
   };
 
   const _getShippingWeight = () => {
+    let header = 'Peso del envío';
     let weight = $('th:contains("Shipping Weight"), th:contains("Peso del envío")').parent().find('td').text().trim();
     if (!weight) {
       weight = $('span:contains("Shipping Weight"), span:contains("Peso del envío")').find(':contains("ounces"),:contains("pounds"),:contains("onzas")').text();
@@ -69,8 +80,12 @@ window.PRODUCT = (() => {
     if (!weight) {
       weight = $('b:contains("Shipping Weight")').parent().text();
     }
-    weight = weight.replace(regexps.shippingWeight, '$1');
-    return dataObject(weight, regexps.shippingWeightValue);
+    if (!weight) {
+      header = 'Peso del producto';
+      weight = $('th:contains("Item Weight"), th:contains("Peso del producto")').parent().find('td').text().trim();
+    }
+    weight = weight.replace(_regexps.shippingWeight, '$1');
+    return dataObject(weight, _regexps.shippingWeightValue, { header });
   };
 
   const _getShippingWeightUY = (weightData) => {
@@ -86,14 +101,14 @@ window.PRODUCT = (() => {
       uyWeight = (usWeightValue / 2.2046).toFixed(2);
     }
     uyWeight = `${uyWeight} kg`;
-    return dataObject(uyWeight, regexps.shippingWeightUYValue);
+    return dataObject(uyWeight, _regexps.shippingWeightUYValue);
   };
 
   const _getShippingPriceUY = (weightData) => {
     const { present, value: uyWeightValue } = weightData;
     if (!present) return dataObject();
     const shippingPriceUY = (supplier.price * uyWeightValue).toFixed(2);
-    return dataObject(`$${shippingPriceUY}`, regexps.priceValue);
+    return dataObject(`$${shippingPriceUY}`, _regexps.priceValue);
   };
 
   const _getTotalPrice = (productPriceData, shippingPriceData) => {
@@ -101,11 +116,12 @@ window.PRODUCT = (() => {
     const { value: productPrice } = productPriceData;
     const { value: shippingPrice } = shippingPriceData;
     const total = (productPrice + shippingPrice).toFixed(2);
-    return dataObject(`$${total}`, regexps.priceValue);;
+    return dataObject(`$${total}`, _regexps.priceValue);
   };
 
   const _getProductData = () => {
     const price = _getPrice();
+    LOGGER.log('!', price);
     const shippingWeight = _getShippingWeight();
     const shippingWeightUY = _getShippingWeightUY(shippingWeight);
     const shippingPriceUY = _getShippingPriceUY(shippingWeightUY);
@@ -124,6 +140,7 @@ window.PRODUCT = (() => {
   };
 
   return {
+
     needsHomologation: _needsHomologation,
     getASIN: _getASIN,
     getASINFromURL: _getASINFromURL,
@@ -135,6 +152,7 @@ window.PRODUCT = (() => {
     getShippingPriceUY: _getShippingPriceUY,
     getTotalPrice: _getTotalPrice,
     getProductData: _getProductData
+
   }
 
 })();
