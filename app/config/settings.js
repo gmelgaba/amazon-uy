@@ -1,8 +1,27 @@
 'use strict';
 
-window.SETTINGS = (function() {
+window.SETTINGS = (() => {
+
+  const _loadConfiguration = async (cb) => {
+    const storageKey = STORAGE_KEYS.settings;
+    BROWSER.storage.get(storageKey, (data) => {
+      const settings = data[storageKey] && data[storageKey].settings;
+      if (!settings || !settings.suppliers) {
+        LOGGER.log('Settings not found. Adding default settings.');
+        BROWSER.storage.set({
+          [storageKey]: {
+            settings: SETTINGS // default settings
+          }
+        }, cb);
+      } else {
+        cb();
+      }
+    });
+  }
 
   return {
+
+    loadConfiguration: _loadConfiguration,
 
     currentSupplier: 'enviamicompra',
 

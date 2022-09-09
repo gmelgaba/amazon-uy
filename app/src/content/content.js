@@ -425,4 +425,6 @@ BROWSER.addMessageListener((request, sender, sendResponse) => {
   }
 });
 
-injectExtension();
+SETTINGS.loadConfiguration(() => {
+  injectExtension();
+});

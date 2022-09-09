@@ -1,57 +1,57 @@
 {
-  "manifest_version": 2,
-  "name": "AmazonUY",
-  "version": "2.1.3",
-  "browser_action": {
-    "default_icon": "images/icon-128.png",
-    "default_popup": "src/popup/popup.html?mode=popup"
-  },
-  "icons": {
-    "16": "images/icon-16.png",
-    "128": "images/icon-128.png"
-  },
-  "permissions": [
-    "tabs",
-    "contextMenus",
-    "storage",
-    "https://www.amazon.com/*"
-  ],
-  "background": {
-    "scripts": [
-      "config/settings.js",
-      "src/shared/scripts/jquery.min.js",
-      "src/shared/scripts/keys.helper.js",
-      "src/shared/scripts/chrome.helper.js",
-      "src/shared/scripts/logger.helper.js",
-      "src/shared/scripts/product.helper.js",
-      "src/background/background.js"
-    ]
-  },
-  "content_scripts": [
-    {
+    "manifest_version": 3,
+    "name": "AmazonUY",
+    "version": "2.1.3",
+    "action": {
+      "default_icon": "images/icon-128.png",
+      "default_popup": "src/popup/popup.html?mode=popup"
+    },
+    "icons": {
+      "16": "images/icon-16.png",
+      "128": "images/icon-128.png"
+    },
+    "permissions": [
+      "tabs",
+      "contextMenus",
+      "storage"
+    ],
+    "host_permissions": [
+      "https://www.amazon.com/*"
+    ],
+    "content_scripts": [
+      {
+        "matches": [
+          "http://www.amazon.com/*",
+          "https://www.amazon.com/*",
+          "http://smile.amazon.com/*",
+          "https://smile.amazon.com/*"
+        ],
+        "js": [
+          "src/shared/scripts/keys.helper.js",
+          "src/shared/scripts/chrome.helper.js",
+          "config/settings.js",
+          "src/shared/scripts/jquery.min.js",
+          "src/shared/scripts/logger.helper.js",
+          "src/shared/scripts/product.helper.js",
+          "src/content/content.js"
+        ],
+        "css": [
+          "src/shared/css/amazon.product.css",
+          "src/shared/css/amazon.cart.css"
+        ]
+      }
+    ],
+    "web_accessible_resources": [{
+      "resources": [
+        "/src/*",
+        "/images/*",
+        "settings.json"
+      ],
       "matches": [
         "http://www.amazon.com/*",
         "https://www.amazon.com/*",
         "http://smile.amazon.com/*",
         "https://smile.amazon.com/*"
-      ],
-      "js": [
-        "src/shared/scripts/jquery.min.js",
-        "src/shared/scripts/keys.helper.js",
-        "src/shared/scripts/chrome.helper.js",
-        "src/shared/scripts/logger.helper.js",
-        "src/shared/scripts/product.helper.js",
-        "src/content/content.js"
-      ],
-      "css": [
-        "src/shared/css/amazon.product.css",
-        "src/shared/css/amazon.cart.css"
       ]
-    }
-  ],
-  "web_accessible_resources": [
-    "/src/*",
-    "/images/*",
-    "settings.json"
-  ]
-}
+    }]
+  }

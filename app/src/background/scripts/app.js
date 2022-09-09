@@ -46,7 +46,7 @@ const loadCurrentSupplier = (supplier) => {
 
 const loadSuppliers = () => {
   BROWSER.storage.get(storageKey, (data) => {
-    const { settings } = data[storageKey];
+    const { settings = null } = data[storageKey];
     if (!settings || !settings.suppliers) return;
     const { currentSupplier, suppliers } = settings;
     suppliers.forEach(supplier => {
@@ -66,6 +66,8 @@ const loadSuppliers = () => {
 }
 
 $(document).ready(() => {
-  loadSuppliers();
-  $('#save-supplier').click(saveSupplierData);
+  SETTINGS.loadConfiguration(() => {
+    loadSuppliers();
+    $('#save-supplier').click(saveSupplierData);
+  });
 });
