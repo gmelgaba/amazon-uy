@@ -25,7 +25,7 @@ To generate a zip file with the chorme extension files, just run:
 npm run zip
 ```
 
-This will re-build the code and create the `/dist` folder, containing a zipfile with the generated code.
+This will re-build the code and create the distribution folder. The `/dist` folder, will contain a zipfile with the generated code.
 
 ## Install Extension
 
