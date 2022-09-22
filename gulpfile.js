@@ -6,6 +6,9 @@ const cleancss = require('gulp-clean-css');
 const uglify = require('gulp-uglify');
 const zip = require('gulp-zip');
 const babel = require('gulp-babel');
+const gulpif = require('gulp-if');
+const argv = require('yargs/yargs')(process.argv.slice(2)).argv
+const isProd = argv.production === 'true';
 
 // Clean build directory
 gulp.task('clean', () => {
@@ -25,7 +28,7 @@ gulp.task('scripts', () => {
 		.pipe(babel({
 			presets: ['@babel/env']
 		}))
-		.pipe(uglify())
+		.pipe(gulpif(isProd, uglify()))
 		.pipe(gulp.dest('build'));
 });
 

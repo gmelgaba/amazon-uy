@@ -6,7 +6,8 @@
   "scripts": {
     "start": "nodemon --watch app --exec \"npm run build\"",
     "build": "gulp",
-    "zip": "gulp zip"
+    "build:prod": "gulp --production=true",
+    "zip": "gulp zip --production=true"
   },
   "author": "Gonzalo Melgar",
   "license": "ISC",
@@ -17,8 +18,10 @@
     "gulp-babel": "8.0.0",
     "gulp-clean": "0.4.0",
     "gulp-clean-css": "4.3.0",
+    "gulp-if": "^3.0.0",
     "gulp-uglify": "3.0.2",
     "gulp-zip": "5.1.0",
-    "nodemon": "^2.0.19"
+    "nodemon": "^2.0.19",
+    "yargs": "^17.5.1"
   }
 }
