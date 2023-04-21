@@ -184,11 +184,19 @@ const injectProductData = () => {
 
   $('.amazon-uy-data-box').remove();
 
-  let $container = $('#titleSection');
+  let append = true;
+  let $container = $('#corePriceDisplay_desktop_feature_div');
+  if (!$container.length) {
+    $container = $('#productOverview_feature_div');
+    append = false;
+  }
+  if (!$container.length) {
+    $container = $('#titleSection').parent();
+  }
   if (!$container.length) {
     $container = $('#title').parent();
   }
-  $container.append($content);
+  (append) ? $container.append($content) : $container.prepend($content);
 };
 
 const injectCartHeader = () => {
