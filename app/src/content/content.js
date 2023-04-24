@@ -169,19 +169,6 @@ const injectProductData = () => {
   $content.append($supplier);
   $content.append($table);
 
-  if (PRODUCT.needsHomologation(data.title)) {
-    const $separator = $('<p>', { html: '--' });
-    const $note = $('<p>', { html: '<i>Atención:</i> pareceria que este producto tiene señales radioeléctricas. Para enviarlo a Uruguay, deberá seguir una serie de pasos, abonar un costo adicional, y ponerse en contacto con su proveedor.', class: 'homologation-note' });
-    const $vucelink = $('<a>', {
-      href: 'http://vuce.gub.uy/wp-content/uploads/2016/03/Manual-U002-persona-fisica-c_flujo-v11.pdf',
-      html: 'Procedimiento VUCE para la homologación de equipos radioeléctricos de la URSEC para personas físicas.',
-      target: '_blank'
-    });
-    $content.append($separator);
-    $content.append($note);
-    $content.append($vucelink);
-  }
-
   $('.amazon-uy-data-box').remove();
 
   let append = true;

@@ -25,11 +25,6 @@ window.PRODUCT = (() => {
     };
   };
 
-  const _needsHomologation = (title) => {
-    const lowercase = title.toLowerCase();
-    return lowercase.indexOf('bluetooth') !== -1 || lowercase.indexOf('wifi') !== -1;
-  };
-
   const _getASIN = () => {
     let asin = $('th:contains("ASIN")').parent().find('td').text().trim();
     if (!asin) {
@@ -141,7 +136,6 @@ window.PRODUCT = (() => {
 
   return {
 
-    needsHomologation: _needsHomologation,
     getASIN: _getASIN,
     getASINFromURL: _getASINFromURL,
     getProductASIN: _getProductASIN,
